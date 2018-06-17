@@ -1,5 +1,4 @@
 require 'rails_helper'
-require 'factory_bot'
 
 RSpec.describe Table, type: :model do
 
@@ -15,6 +14,13 @@ RSpec.describe Table, type: :model do
       table = create :table
       table.name = nil
       expect(table.valid?).to eq(false)
+    end
+
+
+    it 'should not duplicates' do
+      table = create :table
+      expect(table.save!).to eq(true)
+      expect { create :table }.to raise_error(ActiveRecord::RecordInvalid)
     end
 
   end

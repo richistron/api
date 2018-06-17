@@ -10,7 +10,7 @@ class V1::TablesController < ApplicationController
 
   # GET /tables/1
   def show
-    render json: @table
+    render json: @table.as_json(only: [:name, :id])
   end
 
   # POST /tables
@@ -18,7 +18,7 @@ class V1::TablesController < ApplicationController
     @table = Table.new(table_params)
 
     if @table.save
-      render json: @table, status: :created, location: @table
+      render json: @table, status: :created, location: v1_table_path(@table)
     else
       render json: @table.errors, status: :unprocessable_entity
     end
@@ -35,7 +35,9 @@ class V1::TablesController < ApplicationController
 
   # DELETE /tables/1
   def destroy
-    @table.destroy
+    # TODO implement destroy method only for admins
+    # @table.destroy
+    render json: @table
   end
 
   private
