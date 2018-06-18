@@ -7,7 +7,8 @@ RSpec.describe "V1::Tables", type: :request do
   }
 
   let(:session) {
-    user = create :user
+    tenant = create :tenant
+    user = create :user, tenant: tenant
     params = {
         email: user.email,
         password: user.password
