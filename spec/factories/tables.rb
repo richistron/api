@@ -1,5 +1,5 @@
 FactoryBot.define do
   factory :table do
-    name 'A1'
+    name Faker::Internet.password
   end
 end
