@@ -1,4 +1,5 @@
 class V1::TablesController < ApplicationController
+  before_action :authenticate_user!
   before_action :set_table, only: [:show, :update, :destroy]
 
   # GET /tables
