@@ -1,5 +1,6 @@
 class V1::TablesController < ApplicationController
   before_action :authenticate_user!
+  before_action :set_tenant
   before_action :set_table, only: [:show, :update, :destroy]
 
   # GET /tables
@@ -51,4 +52,9 @@ class V1::TablesController < ApplicationController
     def table_params
       params.require(:table).permit(:name)
     end
+
+    def set_tenant
+      @tenant = current_user.tenant
+    end
+
 end
