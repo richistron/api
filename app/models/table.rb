@@ -1,4 +1,6 @@
 class Table < ApplicationRecord
-  validates :name, uniqueness: true
-  validates :name, length: { minimum: 1, maximum: 150 }
+  validates_presence_of :tenant_id, :name
+
+  validates :name, uniqueness: { scope: :tenant_id }
+  belongs_to :tenant
 end
