@@ -9,9 +9,9 @@
 _tenant = Tenant.where name: 'demo'
 if _tenant.count == 0
   tenant = Tenant.create! name: 'demo', application: 'RESTAURANT'
-  user = User.create! email: 'richistron@gmail.com',
+  User.create email: 'richistron@gmail.com',
                       password: 'spree123',
-                      tenant: tenant
+                      tenant_id: tenant.id
 
   ['A', 'B', 'Z', 'BAR'].each do |row|
     2.times do |i|
