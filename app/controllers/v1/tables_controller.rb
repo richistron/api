@@ -7,12 +7,12 @@ class V1::TablesController < ApplicationController
   def index
     @tables = Table.all
 
-    render json: @tables.map { |t| t.as_json( only: [:name, :id])}
+    render json: @tables
   end
 
   # GET /tables/1
   def show
-    render json: @table.as_json(only: [:name, :id])
+    render json: @table
   end
 
   # POST /tables
