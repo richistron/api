@@ -16,7 +16,7 @@ ActiveRecord::Schema.define(version: 2018_06_18_055245) do
   enable_extension "plpgsql"
 
   create_table "tables", force: :cascade do |t|
-    t.string "name", limit: 150
+    t.string "name", limit: 50
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.bigint "tenant_id"
@@ -24,10 +24,10 @@ ActiveRecord::Schema.define(version: 2018_06_18_055245) do
   end
 
   create_table "tenants", force: :cascade do |t|
-    t.string "name"
+    t.string "name", limit: 50
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.string "application"
+    t.string "application", limit: 50
   end
 
   create_table "users", force: :cascade do |t|

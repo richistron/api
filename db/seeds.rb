@@ -6,9 +6,8 @@
 #   movies = Movie.create([{ name: 'Star Wars' }, { name: 'Lord of the Rings' }])
 #   Character.create(name: 'Luke', movie: movies.first)
 
-begin
-  Tenant.find name: 'demo'
-rescue
+_tenant = Tenant.where name: 'demo'
+if _tenant.count == 0
   tenant = Tenant.create! name: 'demo', application: 'RESTAURANT'
   user = User.create! email: 'richistron@gmail.com',
                       password: 'spree123',
