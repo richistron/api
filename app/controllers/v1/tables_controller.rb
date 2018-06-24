@@ -5,7 +5,7 @@ class V1::TablesController < ApplicationController
 
   # GET /tables
   def index
-    @tables = Table.all
+    @tables = Table.where tenant: @tenant
 
     render json: @tables
   end
@@ -46,7 +46,7 @@ class V1::TablesController < ApplicationController
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_table
-      @table = Table.find(params[:id])
+      @table = Table.where(id: params[:id], tenant: @tenant).first
     end
 
     # Only allow a trusted parameter "white list" through.
