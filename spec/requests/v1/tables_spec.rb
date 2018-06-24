@@ -53,10 +53,8 @@ RSpec.describe "V1::Tables", type: :request do
   describe 'V1::Tables#create' do
 
     it 'create 201' do
-      tenant = create :tenant
       post v1_tables_path, params: { table: {
-          name: 'yolo',
-          tenant_id: tenant.id
+          name: 'yolo'
       }}, headers: session
       expect(response).to have_http_status(201)
     end
