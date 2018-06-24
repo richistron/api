@@ -10,10 +10,37 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_06_18_055245) do
+ActiveRecord::Schema.define(version: 2018_06_24_223120) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "account_items", force: :cascade do |t|
+    t.bigint "product_id"
+    t.bigint "tenant_id"
+    t.bigint "account_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["account_id"], name: "index_account_items_on_account_id"
+    t.index ["product_id"], name: "index_account_items_on_product_id"
+    t.index ["tenant_id"], name: "index_account_items_on_tenant_id"
+  end
+
+  create_table "accounts", force: :cascade do |t|
+    t.string "name", limit: 50
+    t.bigint "tenant_id"
+    t.bigint "table_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["table_id"], name: "index_accounts_on_table_id"
+    t.index ["tenant_id"], name: "index_accounts_on_tenant_id"
+  end
+
+  create_table "products", force: :cascade do |t|
+    t.float "price"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
 
   create_table "tables", force: :cascade do |t|
     t.string "name", limit: 50
@@ -62,6 +89,11 @@ ActiveRecord::Schema.define(version: 2018_06_18_055245) do
     t.index ["uid", "provider"], name: "index_users_on_uid_and_provider", unique: true
   end
 
+  add_foreign_key "account_items", "accounts"
+  add_foreign_key "account_items", "products"
+  add_foreign_key "account_items", "tenants"
+  add_foreign_key "accounts", "tables"
+  add_foreign_key "accounts", "tenants"
   add_foreign_key "tables", "tenants"
   add_foreign_key "users", "tenants"
 end
