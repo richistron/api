@@ -18,6 +18,7 @@ class V1::TablesController < ApplicationController
   # POST /tables
   def create
     @table = Table.new(table_params)
+    @table.tenant = @tenant
 
     if @table.save
       render json: @table, status: :created, location: v1_table_path(@table)
@@ -50,7 +51,7 @@ class V1::TablesController < ApplicationController
 
     # Only allow a trusted parameter "white list" through.
     def table_params
-      params.require(:table).permit(:name).merge({tenant_id: @tenant.id})
+      params.require(:table).permit(:name)
     end
 
     def set_tenant
