@@ -50,7 +50,7 @@ class V1::TablesController < ApplicationController
 
     # Only allow a trusted parameter "white list" through.
     def table_params
-      params.require(:table).permit(:name)
+      params.require(:table).permit(:name, :tenant_id)
     end
 
     def set_tenant

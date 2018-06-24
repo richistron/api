@@ -3,7 +3,8 @@ require 'rails_helper'
 RSpec.describe "V1::Tables", type: :request do
 
   let(:table) {
-    build :table
+    tenant = create :tenant
+    build :table, tenant: tenant
   }
 
   let(:session) {
@@ -52,8 +53,10 @@ RSpec.describe "V1::Tables", type: :request do
   describe 'V1::Tables#create' do
 
     it 'create 201' do
+      tenant = create :tenant
       post v1_tables_path, params: { table: {
-          name: 'yolo'
+          name: 'yolo',
+          tenant_id: tenant.id
       }}, headers: session
       expect(response).to have_http_status(201)
     end
@@ -69,13 +72,15 @@ RSpec.describe "V1::Tables", type: :request do
   describe 'V1::Tables#update' do
 
     it 'update 200' do
-      table = create :table
+      tenant = create :tenant
+      table = create :table, tenant: tenant
       patch v1_table_path(table), params: { table: {name: 'foo'}}, headers: session
       expect(response).to have_http_status(200)
     end
 
     it 'update 401' do
-      table = create :table
+      tenant = create :tenant
+      table = create :table, tenant: tenant
       patch v1_table_path(table), params: { table: {name: 'foo'}}
       expect(response).to have_http_status(401)
     end
