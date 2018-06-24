@@ -6,11 +6,17 @@
 #   movies = Movie.create([{ name: 'Star Wars' }, { name: 'Lord of the Rings' }])
 #   Character.create(name: 'Luke', movie: movies.first)
 
-tenant = Tenant.create! name: 'demo'
-user = User.create! email: 'richistron@gmail.com',
-                    password: 'spree123',
-                    tenant: tenant
+begin
+  Tenant.find name: 'demo'
+rescue
+  tenant = Tenant.create! name: 'demo', application: 'RESTAURANT'
+  user = User.create! email: 'richistron@gmail.com',
+                      password: 'spree123',
+                      tenant: tenant
 
-['A', 'B', 'Z', 'BAR'].each do |row|
-  2.times { |i| Table.create! name: "#{row}-#{i+1}" }
+  ['A', 'B', 'Z', 'BAR'].each do |row|
+    2.times do |i|
+      Table.create! name: "#{row}-#{i+1}", tenant: tenant
+    end
+  end
 end
