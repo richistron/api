@@ -32,4 +32,16 @@ RSpec.describe Account, type: :model do
       expect(account.valid?).to eq(false)
     end
   end
+
+  describe 'account.total' do
+    it 'total amount' do
+      account = create :account, tenant: tenant, table: table
+      product = Product.create! price: 1, tenant: tenant
+      expect(account.valid?).to be(true)
+
+      AccountItem.create! account: account, product: product, tenant: tenant
+      AccountItem.create! account: account, product: product, tenant: tenant
+      expect(account.total).to be(2.0)
+    end
+  end
 end
