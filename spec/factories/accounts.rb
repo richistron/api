@@ -1,7 +1,5 @@
 FactoryBot.define do
   factory :account do
-    name "MyString"
-    tenant nil
-    table nil
+    name 'kuno barra'
   end
 end

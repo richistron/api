@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_06_24_223120) do
+ActiveRecord::Schema.define(version: 2018_06_24_225914) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -40,6 +40,8 @@ ActiveRecord::Schema.define(version: 2018_06_24_223120) do
     t.float "price"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.bigint "tenant_id"
+    t.index ["tenant_id"], name: "index_products_on_tenant_id"
   end
 
   create_table "tables", force: :cascade do |t|
@@ -94,6 +96,7 @@ ActiveRecord::Schema.define(version: 2018_06_24_223120) do
   add_foreign_key "account_items", "tenants"
   add_foreign_key "accounts", "tables"
   add_foreign_key "accounts", "tenants"
+  add_foreign_key "products", "tenants"
   add_foreign_key "tables", "tenants"
   add_foreign_key "users", "tenants"
 end
