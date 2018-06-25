@@ -6,5 +6,6 @@ Rails.application.routes.draw do
     resources :tables
     resources :accounts
     resources :account_items
+    resources :products
   end
 end

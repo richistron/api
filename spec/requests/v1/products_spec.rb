@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe 'V1::AccountItems', type: :request do
+RSpec.describe 'V1::ProductController', type: :request do
 
   let(:tenant) {
     create :tenant
@@ -22,8 +22,8 @@ RSpec.describe 'V1::AccountItems', type: :request do
     create :account, tenant: tenant, table: table
   }
 
-  let(:account_item) {
-    create :account_item, tenant: tenant, account: account, product: product
+  let(:product) {
+    create :product, tenant: tenant
   }
 
   let(:session) {
@@ -46,100 +46,99 @@ RSpec.describe 'V1::AccountItems', type: :request do
     product
     table
     account
-    account_item
+    product
   end
 
-  describe 'V1::AccountItems.index' do
+  describe 'V1::Product.index' do
 
     it '200 status' do
-      get v1_account_items_path, headers: session
+      get v1_products_path, headers: session
       expect(response).to have_http_status(200)
     end
 
     it 'index 401' do
-      get v1_account_items_path
+      get v1_products_path
       expect(response).to have_http_status(401)
     end
 
     it 'format' do
-      get v1_account_items_path, headers: session
+      get v1_products_path, headers: session
       res = JSON.parse response.body
       expect(res.first).to have_key('id')
-      expect(res.first).to have_key('product_id')
-      expect(res.first).to have_key('account_id')
-      expect(res.first).to have_key('tenant_id')
+      expect(res.first).to have_key('price')
+      expect(res.first).to have_key('name')
     end
 
   end
 
-  describe 'V1::AccountItems.show' do
+  describe 'V1::Product.show' do
 
     it '200 status' do
-      get v1_account_item_path(account_item), headers: session
+      get v1_product_path(product), headers: session
       expect(response).to have_http_status(200)
     end
 
     it 'index 401' do
-      get v1_account_item_path(account_item)
+      get v1_product_path(product)
       expect(response).to have_http_status(401)
     end
 
     it 'format' do
-      get v1_account_item_path(account_item), headers: session
+      get v1_product_path(product), headers: session
       res = JSON.parse response.body
       expect(res).to have_key('id')
-      expect(res).to have_key('tenant_id')
-      expect(res).to have_key('account_id')
+      expect(res).to have_key('price')
+      expect(res).to have_key('name')
     end
 
   end
 
-  describe 'V1::AccountItems.create' do
+  describe 'V1::Product.create' do
 
     it '200 status' do
-      post v1_account_items_path, headers: session, params: { account_item: {
-          account_id: account.id,
-          product_id: product.id
+      post v1_products_path, headers: session, params: { product: {
+          price: 1,
+          name: 'foo'
       }}
       expect(response).to have_http_status(201)
     end
 
     it '401 status' do
-      post v1_account_items_path, params: { account_item: {
-          account_id: account.id,
-          product_id: product.id
+      post v1_products_path, params: { product: {
+          price: 1
       }}
       expect(response).to have_http_status(401)
     end
 
     it 'format' do
-      post v1_account_items_path, headers: session, params: { account_item: {
-          account_id: account.id,
-          product_id: product.id
+      post v1_products_path, headers: session, params: { product: {
+          name: 'coca',
+          price: 10
       }}
       res = JSON.parse response.body
       expect(res).to have_key('id')
-      expect(res).to have_key('tenant_id')
-      expect(res).to have_key('account_id')
+      expect(res).to have_key('price')
+      expect(res).to have_key('name')
     end
 
   end
 
-  describe 'V1::AccountItems.update' do
+  describe 'V1::Product.update' do
 
     it '200 status' do
-      patch v1_account_item_path(account_item), headers: session, params: { account_item: {
-          product_id: product.id
+      patch v1_product_path(product), headers: session, params: { product: {
+          price: 100
       }}
       expect(response).to have_http_status(200)
       res = JSON.parse response.body
       expect(res).to have_key('id')
       expect(res).to have_key('tenant_id')
-      expect(res).to have_key('account_id')
+      expect(res).to have_key('price')
+      expect(res).to have_key('name')
     end
 
     it '401 status' do
-      patch v1_account_item_path(account_item), params: { account_item: {
+      patch v1_product_path(product), params: { product: {
           product_id: product.id
       }}
       expect(response).to have_http_status(401)
@@ -147,9 +146,9 @@ RSpec.describe 'V1::AccountItems', type: :request do
 
   end
 
-  describe 'V1::AccountItems.destroy' do
+  describe 'V1::Product.destroy' do
     it 'delete item' do
-      delete v1_account_item_path(account_item), headers: session
+      delete v1_product_path(product), headers: session
       expect(response).to have_http_status(200)
     end
 
