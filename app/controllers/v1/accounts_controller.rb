@@ -7,13 +7,19 @@ class V1::AccountsController < ApplicationController
   def index
     @accounts = Account.where tenant: @tenant
 
-    render json: @accounts.map {|a| a.as_json.merge({total: a.total })}
+    render json: @accounts.map {|a| a.as_json.merge({
+                                                        total: a.total,
+                                                        products: a.account_items.map{|a| a.product.as_json }
+                                                    })}
   end
 
   # GET /accounts/1
   def show
     render status: :not_found if @account.nil?
-    render json: @account.as_json.merge({total: @account.total})
+    render json: @account.as_json.merge({
+                                            total: @account.total,
+                                            products: @account.account_items.map {|a| a.product.as_json }
+                                        })
   end
 
   # POST /accounts
@@ -22,7 +28,10 @@ class V1::AccountsController < ApplicationController
     @account.tenant = @tenant
 
     if @account.save
-      render json: @account.as_json.merge({total: @account.total}), status: :created, location: v1_account_path(@account)
+      render json: @account.as_json.merge({
+                                              total: @account.total,
+                                              products: @account.account_items.map {|a| a.product.as_json }
+                                          }), status: :created, location: v1_account_path(@account)
     else
       render json: @account.errors, status: :unprocessable_entity
     end
@@ -31,7 +40,10 @@ class V1::AccountsController < ApplicationController
   # PATCH/PUT /accounts/1
   def update
     if @account.update(account_params)
-      render json: @account.as_json.merge({total: @account.total})
+      render json: @account.as_json.merge({
+                                              total: @account.total,
+                                              products: @account.account_items.map {|a| a.product.as_json }
+                                          })
     else
       render json: @account.errors, status: :unprocessable_entity
     end
