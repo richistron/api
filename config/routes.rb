@@ -5,5 +5,6 @@ Rails.application.routes.draw do
   namespace :v1 do
     resources :tables
     resources :accounts
+    resources :account_items
   end
 end
