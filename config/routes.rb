@@ -7,5 +7,6 @@ Rails.application.routes.draw do
     resources :accounts
     resources :account_items
     resources :products
+    resources :tenants
   end
 end
