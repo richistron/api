@@ -39,9 +39,8 @@ class V1::TablesController < ApplicationController
 
   # DELETE /tables/1
   def destroy
-    # TODO implement destroy method only for admins
-    # @table.destroy
-    render json: @table
+    @table.destroy
+    render json: {}
   end
 
   private

@@ -148,8 +148,11 @@ RSpec.describe 'V1::AccountItemsItems', type: :request do
   end
 
   describe 'V1::AccountItems.destroy' do
-    # TODO implement destroy method only for admins
-    skip 'destoy is not implemented'
+    it 'delete item' do
+      delete v1_account_item_path(account_item), headers: session
+      expect(response).to have_http_status(200)
+    end
+
   end
 end
 

@@ -39,9 +39,8 @@ class V1::AccountItemsController < ApplicationController
 
   # DELETE /account_items/1
   def destroy
-    # TODO implement destroy method only for admins
-    # @account_item.destroy
-    render json: @account_item
+    @account_item.destroy
+    render json: {}
   end
 
   private
