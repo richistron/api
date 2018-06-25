@@ -7,13 +7,13 @@ class V1::AccountsController < ApplicationController
   def index
     @accounts = Account.where tenant: @tenant
 
-    render json: @accounts
+    render json: @accounts.map {|a| a.as_json.merge({total: a.total })}
   end
 
   # GET /accounts/1
   def show
     render status: :not_found if @account.nil?
-    render json: @account
+    render json: @account.as_json.merge({total: @account.total})
   end
 
   # POST /accounts
@@ -22,7 +22,7 @@ class V1::AccountsController < ApplicationController
     @account.tenant = @tenant
 
     if @account.save
-      render json: @account, status: :created, location: v1_account_path(@account)
+      render json: @account.as_json.merge({total: @account.total}), status: :created, location: v1_account_path(@account)
     else
       render json: @account.errors, status: :unprocessable_entity
     end
@@ -31,7 +31,7 @@ class V1::AccountsController < ApplicationController
   # PATCH/PUT /accounts/1
   def update
     if @account.update(account_params)
-      render json: @account
+      render json: @account.as_json.merge({total: @account.total})
     else
       render json: @account.errors, status: :unprocessable_entity
     end
