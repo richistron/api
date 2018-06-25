@@ -12,6 +12,7 @@ class V1::TablesController < ApplicationController
 
   # GET /tables/1
   def show
+    render status: :not_found if @table.nil?
     render json: @table
   end
 

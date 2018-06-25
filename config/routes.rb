@@ -4,5 +4,6 @@ Rails.application.routes.draw do
   # root 'tables#index'
   namespace :v1 do
     resources :tables
+    resources :accounts
   end
 end

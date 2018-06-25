@@ -118,6 +118,7 @@ RSpec.describe 'V1::Tables', type: :request do
 
   describe 'V1::Tables.destroy' do
     it 'destroy' do
+      # TODO implement destroy method only for admins
       skip 'destoy is not implemented'
       table = create :table
       delete v1_table_path(table), params: { table: {name: 'foo'}}
