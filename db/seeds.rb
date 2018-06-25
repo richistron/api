@@ -17,6 +17,6 @@ table = nil
 end
 
 account = Account.create! table: table, tenant: tenant
-product = Product.create! price: 1, tenant: tenant
+product = Product.create! name: 'coca cola', price: 10.50, tenant: tenant
 AccountItem.create! account: account, tenant: tenant, product: product
 AccountItem.create! account: account, tenant: tenant, product: product

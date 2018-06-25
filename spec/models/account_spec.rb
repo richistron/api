@@ -36,7 +36,7 @@ RSpec.describe Account, type: :model do
   describe 'account.total' do
     it 'total amount' do
       account = create :account, tenant: tenant, table: table
-      product = Product.create! price: 1, tenant: tenant
+      product = Product.create! price: 1, tenant: tenant, name: 'cliche de bolita'
       expect(account.valid?).to be(true)
 
       AccountItem.create! account: account, product: product, tenant: tenant

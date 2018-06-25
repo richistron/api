@@ -1,5 +1,6 @@
 FactoryBot.define do
   factory :product do
-    price 1.5
+    price 10.5
+    name 'coca cola'
   end
 end
