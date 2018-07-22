@@ -1,6 +1,7 @@
 class V1::TenantsController < ApplicationController
-  before_action :authenticate_user!, only: [:index, :show, :update]
-  before_action :set_account_item, only: [:show, :update, :destroy]
+  before_action :authenticate_user!, only: [:index, :update, :create, :destroy]
+  before_action :set_account_item, only: [:update, :destroy]
+  before_action :set_account_item_by_name, only: [:show]
 
   # GET /tenants
   def index
@@ -11,8 +12,11 @@ class V1::TenantsController < ApplicationController
 
   # GET /tenants/1
   def show
-    render status: :not_found if @tenant.nil?
-    render json: @tenant
+    if @tenant.nil?
+      render status: :not_found
+    else
+      render json: @tenant
+    end
   end
 
   # POST /tenants
@@ -45,6 +49,15 @@ class V1::TenantsController < ApplicationController
   # Use callbacks to share common setup or constraints between actions.
   def set_account_item
     @tenant = Tenant.find params[:id]
+  end
+
+  def set_account_item_by_name
+    _tenant = Tenant.where(name: params[:id])
+    if _tenant.nil?
+      @tenant = nil
+    else
+      @tenant = _tenant.first
+    end
   end
 
   # Only allow a trusted parameter "white list" through.
